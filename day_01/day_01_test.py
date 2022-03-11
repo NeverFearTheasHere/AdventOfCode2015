@@ -1,4 +1,4 @@
-from day_01 import determineFloorLevel
+from day_01 import determineFloorLevel, firstEntryToBasement
 
 def test_1():
     assert determineFloorLevel('(())') == 0
@@ -18,3 +18,9 @@ def test_4():
 def test_5():
     assert determineFloorLevel(')))') == -3
     assert determineFloorLevel(')())())') == -3
+
+def test_6_part_2():
+    assert firstEntryToBasement(')') == 1
+
+def test_7_part_2():
+    assert firstEntryToBasement('()())') == 5

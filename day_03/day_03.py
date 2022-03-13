@@ -4,8 +4,12 @@ unitVectorX = np.array([1, 0])
 unitVectorY = np.array([0, 1])
 
 def countHousesVisited(directionsInputString):
+    uniqueHousesVisited = np.unique(np.array(housesVisited(directionsInputString)), axis = 0)
+    return len(uniqueHousesVisited)
+
+def housesVisited(directionsInputString):
     currentLocation = np.array([0, 0])
-    housesWhichHaveBeenVisited = [currentLocation.copy()]
+    housesVisited = [currentLocation.copy()]
 
     directionCharacters = list(directionsInputString)
 
@@ -24,12 +28,22 @@ def countHousesVisited(directionsInputString):
                 raise ValueError(f'invalid direction character: {directionCharacter}') 
 
         currentLocation += direction
-        housesWhichHaveBeenVisited.append(currentLocation.copy())
+        housesVisited.append(currentLocation.copy())
 
-    uniqueHousesWhichHaveBeenVisited = np.unique(np.array(housesWhichHaveBeenVisited), axis = 0)
-    return len(uniqueHousesWhichHaveBeenVisited)
+    return housesVisited
 
+def countHousesVisitedWithRoboSanta(directionsInputString):
+    santaDirections = directionsInputString[::2]
+    roboSantaDirections = directionsInputString[1::2]
+    housesVisitedBySanta = housesVisited(santaDirections)
+    housesVisitedByRoboSanta = housesVisited(roboSantaDirections)
+    uniqueHousesVisited = np.unique(np.array(housesVisitedBySanta + housesVisitedByRoboSanta), axis = 0)
+    return len(uniqueHousesVisited)
+    
 if __name__ == '__main__':
     with open('day_03//input.txt') as input:
-        numberOfHousesVisited = countHousesVisited(input.read())
+        directionsInputString = input.read()
+        numberOfHousesVisited = countHousesVisited(directionsInputString)
+        numberOfHousesVisitedWithRoboSanta = countHousesVisitedWithRoboSanta(directionsInputString)
     print(f'{numberOfHousesVisited} houses were visited')
+    print(f'{numberOfHousesVisitedWithRoboSanta} houses were visited with robo santa')
